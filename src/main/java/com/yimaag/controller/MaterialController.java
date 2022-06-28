@@ -1,9 +1,6 @@
 package com.yimaag.controller;
 
-import com.yimaag.entity.Content;
-import com.yimaag.entity.FoodMaterials;
 import com.yimaag.entity.Material;
-import com.yimaag.entity.Scale;
 import com.yimaag.log.LogGenerator;
 import com.yimaag.pojo.MaterialP;
 import com.yimaag.response.ErrorResponse;
