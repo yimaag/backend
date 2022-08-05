@@ -12,15 +12,19 @@ public interface UserService {
 
     User create(UserP userP);
 
+    User createAdmin(UserP userP);
+
     Page<User> getAllPageable(Integer page, Integer itemCount, String name, String surname, String username,
                               String email, String password, UserRole[] userRole, Long creationTime, String[] sortParam);
 
     List<User> getAll(String name, String surname, String username,
                       String email, String password, UserRole[] userRole, Long creationTime, String[] sortParam);
 
-    User update(UserP userP);
+    User update(Long id, UserP userP);
 
-    void updatePassword(UserP userP);
+    void updatePassword(Long id, UserP userP);
+
+    User updateAdmin(Long id, UserP userP);
 
     void delete(Long id);
 }

@@ -52,6 +52,22 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    public User createAdmin(UserP userP) {
+        long now = System.currentTimeMillis();
+        User user = new User();
+        log.info(LogGenerator.enter("user : " + userP));
+        user.setName(userP.getName());
+        user.setSurname(userP.getSurname());
+        user.setUsername(userP.getUsername());
+        user.setEmail(userP.getEmail());
+        user.setPassword(userP.getPassword());
+        user.setUserRole(userP.getUserRole());
+        user.setCreationTime(now);
+        user = userRepository.save(user);
+        return user;
+    }
+
+    @Override
     public Page<User> getAllPageable(Integer page, Integer itemCount, String name, String surname,
                                      String username, String email, String password, UserRole[] userRole,
                                      Long creationTime, String[] sortParam) {
@@ -141,11 +157,11 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public User update(UserP userP) {
+    public User update(Long id, UserP userP) {
         log.info(LogGenerator.enter("user : " + userP));
-        User userDB = userRepository.findOneById(userP.getId());
+        User userDB = userRepository.findOneById(id);
         User user = new User();
-        user.setId(userP.getId());
+        user.setId(userDB.getId());
         user.setName(userP.getName());
         user.setSurname(userP.getSurname());
         user.setUsername(userP.getUsername());
@@ -158,12 +174,12 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void updatePassword(UserP userP) {
+    public void updatePassword(Long id, UserP userP) {
         if (userP.getPassword().equals(userP.getPassword2())) {
             log.info(LogGenerator.enter("user : " + userP));
-            User userDB = userRepository.findOneById(userP.getId());
+            User userDB = userRepository.findOneById(id);
             User user = new User();
-            user.setId(userP.getId());
+            user.setId(userDB.getId());
             user.setName(userDB.getName());
             user.setSurname(userDB.getSurname());
             user.setUsername(userDB.getUsername());
@@ -175,6 +191,23 @@ public class UserServiceImp implements UserService {
         } else {
             log.error("Passwords do not match");
         }
+    }
+
+    @Override
+    public User updateAdmin(Long id, UserP userP) {
+        log.info(LogGenerator.enter("user : " + userP));
+        User userDB = userRepository.findOneById(id);
+        User user = new User();
+        user.setId(userDB.getId());
+        user.setName(userP.getName());
+        user.setSurname(userP.getSurname());
+        user.setUsername(userP.getUsername());
+        user.setEmail(userP.getEmail());
+        user.setPassword(userP.getPassword());
+        user.setUserRole(userP.getUserRole());
+        user.setCreationTime(userDB.getCreationTime());
+        userRepository.save(user);
+        return user;
     }
 
     @Override
